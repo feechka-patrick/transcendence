@@ -1,3 +1,10 @@
+## How to start with docker
+```
+docker build -t front-transcendence .
+docker run -dp 3000:3000 front-transcendence
+```
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
