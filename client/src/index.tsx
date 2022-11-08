@@ -1,8 +1,8 @@
-import React, {createContext} from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import {Provider} from 'react-redux';
-import {store} from './store/store';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 import UserStore from './store/UserStore';
 
 export const Context = createContext(null)
@@ -14,11 +14,8 @@ ReactDOM.render(
         }
     }>
         <Provider store={store}>
-            <App / >
+            <App />
         </Provider>
-    < /Context.Provider>
-,
-document.getElementById('root')
-)
-;
+    </Context.Provider>
+    , document.getElementById('root'));
 
