@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
-const Admin = () => {
+function Admin() {
   return (
     <Container>
       ADMIN PAGE

@@ -1,43 +1,37 @@
 // @ts-nocheck
 import React, { useContext, useState } from 'react';
-import { Card, Form, Row, Col, Button, Container } from 'react-bootstrap'
+import {
+  Button, Card, Col, Container, Form, Row,
+} from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import GameTable from '../components/GameTable';
 import { useInput } from '../components/Validation';
-import { changeEmail, deleteUser } from '../http/userAPI';
-import { Context } from "../index";
-import { useAppSelector } from '../store/hooks';
+import { Context } from '../index';
 import { MAIN_ROUTE } from '../utils/consts';
 
-const Account = () => {
-  const history = useHistory()
-  const { user } = useContext(Context)
-  const email = useInput(user.email, { isEmpty: true, minLength: 5, isEmail: true })
-  const [password, setPassword] = useState('')
-
-  const { _user } = useAppSelector((store) => store);
+function Account() {
+  const history = useHistory();
+  const { user } = useContext(Context);
+  const email = useInput(user.email, { isEmpty: true, minLength: 5, isEmail: true });
+  const [password, setPassword] = useState('');
 
   const changeData = async () => {
     try {
-      let data = await changeEmail(user.email, email.value, password)
-
-      user.setEmail(email.value)
-      history.push(MAIN_ROUTE)
+      user.setEmail(email.value);
+      history.push(MAIN_ROUTE);
     } catch (e) {
-      alert(e.response.data.message)
+      alert(e.response.data.message);
     }
-  }
+  };
 
   const deleteData = async () => {
     try {
-      let data = await deleteUser(user.email, password)
-
-      user.setIsAuth(false)
-      history.push(MAIN_ROUTE)
+      user.setIsAuth(false);
+      history.push(MAIN_ROUTE);
     } catch (e) {
-      alert(e.response.data.message)
+      alert(e.response.data.message);
     }
-  }
+  };
   return (
     <Container className="mt-5">
       <Card className="m-5 p-5">
@@ -75,10 +69,13 @@ const Account = () => {
 
               <Form.Group as={Col}>
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="Enter email"
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
                   value={email.value}
-                  onChange={e => email.onChange(e)}
-                  onBlur={e => email.onBlur(e)} />
+                  onChange={(e) => email.onChange(e)}
+                  onBlur={(e) => email.onBlur(e)}
+                />
               </Form.Group>
             </Row>
 
@@ -95,33 +92,40 @@ const Account = () => {
               Password
             </Form.Label>
             <Col sm={10}>
-              <Form.Control type="password" placeholder="Enter current password"
+              <Form.Control
+                type="password"
+                placeholder="Enter current password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </Col>
           </Form.Group>
 
-
           <Form.Group as={Row} className="mb-5 m-5">
-            <Col></Col>
+            <Col />
 
             {/* BUTTON SAVE CHANGE */}
             <Col sm={5}>
-              <Button variant={"outline-dark"}
+              <Button
+                variant="outline-dark"
                 onClick={changeData}
                 disabled={!email.inputValid}
-                className='account_btn'>
-                Save change</Button>
+                className="account_btn"
+              >
+                Save change
+              </Button>
             </Col>
 
             {/* BUTTON DELETE USER */}
             <Col sm={5}>
-              <Button variant={"outline-danger"}
+              <Button
+                variant="outline-danger"
                 onClick={deleteData}
                 style={{ float: 'right' }}
-                className='account_btn'>
-                Delete account</Button>
+                className="account_btn"
+              >
+                Delete account
+              </Button>
             </Col>
           </Form.Group>
         </Form>
@@ -130,7 +134,7 @@ const Account = () => {
         <GameTable />
 
       </Card>
-    </Container >
+    </Container>
   );
 }
 
