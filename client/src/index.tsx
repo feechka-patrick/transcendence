@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import UserStore from './store/UserStore';
 
-export const Context = createContext(null)
+export const Context = createContext<any>(null)
 
 ReactDOM.render(
     <Context.Provider value={

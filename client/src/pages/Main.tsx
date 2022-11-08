@@ -12,6 +12,7 @@ const Main = () => {
   const {user} = useContext(Context);
   const history = useHistory();
 
+  // @ts-ignore
   const { _user } = useAppSelector((store) => store);
 
   console.log("login: " + user._isAuth)

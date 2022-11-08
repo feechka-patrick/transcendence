@@ -1,13 +1,13 @@
-import {useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
-export const useValidation = (value, validations) => {
+export const useValidation = (value: any, validations: any) => {
     const [isEmpty, setEmpty] = useState(true)
     const [minLengthError, setMinLengthError] = useState(false)
     const [emailError, setEmailError] = useState(false)
     const [inputValid, setInputValid] = useState(false)
 
 
-    useEffect( () => {
+    useEffect(() => {
         for (const validation in validations) {
             switch (validation) {
                 case 'minLength':
@@ -28,8 +28,8 @@ export const useValidation = (value, validations) => {
         if (isEmpty || minLengthError || emailError)
             setInputValid(false)
         else {
-                setInputValid(true)
-            }
+            setInputValid(true)
+        }
     }, [isEmpty, minLengthError, emailError])
 
     return {
@@ -40,16 +40,16 @@ export const useValidation = (value, validations) => {
     }
 }
 
-export const useInput = (initialValue, validations) => {
+export const useInput = (initialValue: any, validations: any) => {
     const [value, setValue] = useState(initialValue)
     const [isDirty, setDirty] = useState(false)
     const valid = useValidation(value, validations)
 
-    const onChange = (e) => {
+    const onChange = (e: any) => {
         setValue(e.target.value)
     }
 
-    const onBlur = (e) => {
+    const onBlur = (e: any) => {
         setDirty(true)
     }
 
@@ -61,8 +61,9 @@ export const useInput = (initialValue, validations) => {
         ...valid
     }
 }
+
 const Validation = () => {
-    
+
 }
 
 export default Validation;

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useContext, useState } from 'react';
 import { Card, Form, Row, Col, Button, Container } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosRequestConfig} from "axios";
 
 const $host = axios.create({
     baseURL: "http://localhost:5000/"
@@ -8,8 +8,9 @@ const $authHost = axios.create({
     baseURL: "http://localhost:5000/"
 })
 
-const authInterceptor = config => {
-    config.headers.authorization = `Bearer ${localStorage.getItem('token')}`
+const authInterceptor = (config: AxiosRequestConfig): AxiosRequestConfig => {
+    if (config.headers)
+        config.headers.authorization = `Bearer ${localStorage.getItem('token')}`
     return config
 }
 

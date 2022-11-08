@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { $host } from "."
 import jwtDecode from 'jwt-decode';
 
