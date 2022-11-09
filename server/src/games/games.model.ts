@@ -8,22 +8,22 @@ interface GameCreationAttrs{
     userId: number;
 }
 
-@Table({tableName: 'games'})
+@Table({ tableName: 'games' })
 export class Game extends Model<Game, GameCreationAttrs> {
-    @ApiProperty({example: '1', description: 'Unique identificator'})
-    @Column({type: DataType.INTEGER, unique:true, autoIncrement: true, primaryKey: true})
+    @ApiProperty({ example: '1', description: 'Unique identificator' })
+    @Column({ type: DataType.INTEGER, unique:true, autoIncrement: true, primaryKey: true })
     id: number;
 
-    @ApiProperty({example: 'false', description: 'User is winner or nor'})
-    @Column({type: DataType.BOOLEAN, defaultValue: false})
+    @ApiProperty({ example: 'false', description: 'User is winner or nor' })
+    @Column({ type: DataType.BOOLEAN, defaultValue: false })
     winner: boolean;
 
-    @ApiProperty({example: '30', description: 'Game time (seconds)'})
-    @Column({type: DataType.INTEGER, allowNull:false})
+    @ApiProperty({ example: '30', description: 'Game time (seconds)' })
+    @Column({ type: DataType.INTEGER, allowNull:false })
     time: number;
 
     @ForeignKey(() => User)
-    @Column({type: DataType.INTEGER})
+    @Column({ type: DataType.INTEGER })
     userId: number
 
     @BelongsTo(() => User)

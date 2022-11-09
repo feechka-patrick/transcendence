@@ -16,10 +16,10 @@ export class GamesService {
     }
 
     async getGamesByUser(dto: GetGamesDto) {
-        const user = await this.userRepository.findOne({where: {email: dto.userEmail}})
+        const user = await this.userRepository.findOne({ where: { email: dto.userEmail } })
 
         if (user){
-            const games = await this.gameRepository.findAll({where: {userId : user.id}})
+            const games = await this.gameRepository.findAll({ where: { userId : user.id } })
             return games;
         }
         throw new HttpException("User not found", HttpStatus.NOT_FOUND);

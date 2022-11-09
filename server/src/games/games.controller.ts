@@ -9,15 +9,15 @@ import { GamesService } from './games.service';
 export class GamesController {
     constructor(private gameService: GamesService) {}
 
-    @ApiOperation({summary: 'Create game'})
-    @ApiResponse({status:200, type: Game})
+    @ApiOperation({ summary: 'Create game' })
+    @ApiResponse({ status:200, type: Game })
     @Post()
     createGame(@Body() dto: CreateGameDto){
         return this.gameService.create(dto)
     }
 
-    @ApiOperation({summary: 'Get games by user'})
-    @ApiResponse({status:200, type: Game})
+    @ApiOperation({ summary: 'Get games by user' })
+    @ApiResponse({ status:200, type: Game })
     @Post('/store')
     getGamesByUser(@Body() dto: GetGamesDto){
         return this.gameService.getGamesByUser(dto)
