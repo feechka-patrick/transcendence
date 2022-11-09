@@ -65,6 +65,9 @@
         "namedComponents": "arrow-function",
         "unnamedComponents": "arrow-function"
       }
+    ],
+    "import/no-cycle": [
+      "off"
     ]
   }
 }
