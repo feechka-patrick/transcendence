@@ -57,14 +57,14 @@ const concat = function (a, b, c, board) {
   }
 };
 
-export function getRandomInt(min, max) {
+export const getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
   // Максимум не включается, минимум включается
-}
+};
 
-export function getNextStep(board) {
+export const getNextStep = (board) => {
   // проверка комбинаций из двух "оо"
   for (var i = 0; i < 3; i++) {
     var result = concat(i, i + 3, i + 6, board);
@@ -125,4 +125,4 @@ export function getNextStep(board) {
     index = getRandomInt(0, 9);
   }
   return index;
-}
+};

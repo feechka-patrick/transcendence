@@ -7,7 +7,7 @@ import { calculateWinner, getNextStep, getRandomInt } from './GameUtils';
 import { AxiosError } from 'axios';
 import Button from 'react-bootstrap/Button';
 
-function Game() {
+const Game = () => {
   const { user } = useContext(Context);
   const [board, setBoard] = useState(Array(9).fill(null));
   const [countStep, setCount] = useState(0);
@@ -84,6 +84,6 @@ function Game() {
       </div>
     </div>
   );
-}
+};
 
 export default Game;

@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 import { getGamesByUser } from '../http/userAPI';
 import { Context } from '../index';
 
-function GameTable() {
+const GameTable = () => {
   const { user } = useContext(Context);
   const [sgames, setGames] = useState(user.games);
 
@@ -69,6 +69,6 @@ function GameTable() {
       </Form.Group>
     </Container>
   );
-}
+};
 
 export default GameTable;

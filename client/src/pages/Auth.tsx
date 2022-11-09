@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setUser } from '../store/features/userSlice';
 import { store } from '../store/store';
 
-function Auth() {
+const Auth = () => {
   const { user } = useContext(Context);
   const location = useLocation();
   const history = useHistory();
@@ -109,6 +109,6 @@ function Auth() {
 
     </Container>
   );
-}
+};
 
 export default Auth;

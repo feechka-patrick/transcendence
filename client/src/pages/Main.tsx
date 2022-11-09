@@ -9,7 +9,7 @@ import TypeBar from '../components/TypeBar';
 import { GAME_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { useAppSelector } from '../store/hooks';
 
-function Main() {
+const Main = () => {
   const { user } = useContext(Context);
   const history = useHistory();
 
@@ -47,6 +47,6 @@ function Main() {
 
     </Container>
   );
-}
+};
 
 export default Main;

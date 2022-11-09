@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useContext, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import {
   Button, Card, Col, Container, Form, Row,
 } from 'react-bootstrap';
@@ -9,7 +9,7 @@ import { useInput } from '../components/Validation';
 import { Context } from '../index';
 import { MAIN_ROUTE } from '../utils/consts';
 
-function Account() {
+const Account: FC<{}> = () => {
   const history = useHistory();
   const { user } = useContext(Context);
   const email = useInput(user.email, { isEmpty: true, minLength: 5, isEmail: true });
@@ -136,6 +136,6 @@ function Account() {
       </Card>
     </Container>
   );
-}
+};
 
 export default Account;
