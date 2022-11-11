@@ -14,29 +14,29 @@ import { UsersService } from './users.service';
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
-    @ApiOperation({summary: 'Create user'})
-    @ApiResponse({status:200, type: User})
+    @ApiOperation({ summary: 'Create user' })
+    @ApiResponse({ status:200, type: User })
     @Post()
     create(@Body() userDto: CreateUserDto){
         return this.usersService.createUser(userDto);
     }
 
-    @ApiOperation({summary: 'Delete user'})
-    @ApiResponse({status:200, type: User})
+    @ApiOperation({ summary: 'Delete user' })
+    @ApiResponse({ status:200, type: User })
     @Post('/deleteUser')
     deleteUser(@Body() userDto: CreateUserDto){
         return this.usersService.deleteUser(userDto);
     }
 
-    @ApiOperation({summary: 'Change email'})
-    @ApiResponse({status:200, type: User})
+    @ApiOperation({ summary: 'Change email' })
+    @ApiResponse({ status:200, type: User })
     @Post('/changeEmail')
     changeEmail(@Body() changeEmailDto: ChangeEmailDto){
         return this.usersService.changeEmail(changeEmailDto);
     }
 
-    @ApiOperation({summary: 'Get all users'})
-    @ApiResponse({status:200, type: [User]})
+    @ApiOperation({ summary: 'Get all users' })
+    @ApiResponse({ status:200, type: [User] })
     @Roles("admin")
     @UseGuards(RolesGuard)
     @Get()
@@ -44,8 +44,8 @@ export class UsersController {
         return this.usersService.getAllUsers();
     }
 
-    @ApiOperation({summary: 'Role assignment'})
-    @ApiResponse({status:200})
+    @ApiOperation({ summary: 'Role assignment' })
+    @ApiResponse({ status:200 })
     @Roles("admin")
     @UseGuards(RolesGuard)
     @Post('/role')
@@ -53,8 +53,8 @@ export class UsersController {
         return this.usersService.addRole(dto);
     }
 
-    @ApiOperation({summary: 'Ban user'})
-    @ApiResponse({status:200})
+    @ApiOperation({ summary: 'Ban user' })
+    @ApiResponse({ status:200 })
     @Roles("admin")
     @UseGuards(RolesGuard)
     @Post('/ban')

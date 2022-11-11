@@ -1,8 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type Role = 'admin' | 'user';
 
-export interface StoredUser  {
+export interface StoredUser {
     id: string;
     email: string;
     password: string;
@@ -17,23 +17,23 @@ interface UserState {
 }
 
 const initialState: UserState = {
-    user: null,
+  user: null,
 };
 
 const userSlice = createSlice({
-    name: 'user',
-    initialState,
-    reducers: {
-        setUser: (state, action: PayloadAction<UserState>) => {
-            const { user } = action.payload;
-            state.user = user;
-        },
+  name: 'user',
+  initialState,
+  reducers: {
+    setUser: (state, action: PayloadAction<UserState>) => {
+      const { user } = action.payload;
+      state.user = user;
     },
-    extraReducers: () => { },
+  },
+  extraReducers: () => { },
 });
 
 // export const loginEmail = async (email, password) => {
-    
+
 // }
 
 export const { setUser } = userSlice.actions;
