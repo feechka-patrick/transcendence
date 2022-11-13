@@ -1,17 +1,22 @@
-## How to start with docker
+# Запуск
+
+## Через докер
+
 ```
 docker build -t front-transcendence .
 docker run -dp 3000:3000 front-transcendence
 ```
 
-## How to start
+## Локально
 
-In this directory, you can run:
+При первом запуске нужно установить пакеты зависимости
 
-### `yarn start`
+```
+yarn
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+После этого можно запустить проект в режиме разработчика
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+yarn start
+```
