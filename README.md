@@ -20,7 +20,7 @@ yarn start
 ```
 cd server
 yarn 
-yarn start
+yarn start:dev
 ```
 
 База данных, достаточно запустить скрипт в корневой папке проекта **startLocalDatabase.sh**. Или исполнить команду
