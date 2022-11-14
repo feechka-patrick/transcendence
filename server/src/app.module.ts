@@ -9,10 +9,11 @@ import { UserRoles } from "./roles/user-roles.model";
 import { AuthModule } from './auth/auth.module';
 import { GamesModule } from './games/games.module';
 import { Game } from "./games/games.model";
+import { chatGateway } from "./chat/chat.gateway";
 
 @Module({
     controllers: [],
-    providers: [],
+    providers: [chatGateway],
     imports: [
         ConfigModule.forRoot({
             envFilePath: `.env`
