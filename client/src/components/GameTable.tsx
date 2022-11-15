@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useContext, useState } from 'react';
 import {
-  Form, Row, Col, Button, Container,
+  Button, Col, Container, Form, Row,
 } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { getGamesByUser } from '../http/userAPI';
@@ -44,6 +44,7 @@ const GameTable = () => {
         </thead>
         <tbody>
           {sgames.map((game, i) => (
+            // eslint-disable-next-line react/no-array-index-key
             <tr key={i}>
               <td>{i + 1}</td>
               <td>{game.winner ? 'win' : 'lose'}</td>
