@@ -4,15 +4,15 @@ import {
   Button, Card, Container, Form,
 } from 'react-bootstrap';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
-import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
+import { INTRA_AUTH_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/consts';
 import {
   decodeToken, getGamesByUser, login, registration,
-} from '../http/userAPI';
-import { Context } from '../index';
-import { useInput } from '../components/Validation';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { setUser } from '../store/features/userSlice';
-import { store } from '../store/store';
+} from '../../http/userAPI';
+import { Context } from '../../index';
+import { useInput } from '../../components/Validation';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setUser } from '../../store/features/userSlice';
+import { store } from '../../store/store';
 
 const Auth = () => {
   const { user } = useContext(Context);
@@ -105,6 +105,10 @@ const Auth = () => {
               <NavLink to={LOGIN_ROUTE}> Sign in</NavLink>
             </div>
           )}
+
+        <div className="mt-3">
+             <NavLink to={INTRA_AUTH_ROUTE}>42 INTRA AUTH</NavLink>
+            </div>
       </Card>
 
     </Container>

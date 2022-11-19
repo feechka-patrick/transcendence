@@ -68,6 +68,7 @@
     ],
     "import/no-cycle": [
       "off"
-    ]
+    ],
+    "defaultSeverity": "warning"
   }
 }

@@ -1,11 +1,12 @@
 import Admin from './pages/Admin';
-import Auth from './pages/Auth';
+import Auth from './pages/Auth/Auth';
 import Game from './pages/Game';
 import Main from './pages/Main';
 import Account from './pages/Account';
 import {
-  ADMIN_ROUTE, ACCOUNT_ROUTE, GAME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, MAIN_ROUTE,
+  ADMIN_ROUTE, ACCOUNT_ROUTE, GAME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, MAIN_ROUTE, INTRA_AUTH_ROUTE,
 } from './utils/consts';
+import AuthIntra from './pages/Auth/AuthIntra';
 
 export const authRoutes = [
   {
@@ -26,6 +27,10 @@ export const publicRoutes = [
   {
     path: LOGIN_ROUTE,
     Component: Auth,
+  },
+  {
+    path: INTRA_AUTH_ROUTE,
+    Component: AuthIntra,
   },
   {
     path: REGISTRATION_ROUTE,
