@@ -12,6 +12,7 @@ const getAuthorizationCode = oauth.authorizationCode(
   )
 
 const AuthIntra = () => {
+  debugger
     const auth = getAuthorizationCode();
   return (
     <div> Auth Intra</div>
