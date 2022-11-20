@@ -1,5 +1,6 @@
 // @ts-nocheck
-import React, { useContext, useState, useEffect } from 'react';
+/* eslint-disable */
+import React, { useContext } from 'react';
 import {
   Button, Card, Container, Form,
 } from 'react-bootstrap';
