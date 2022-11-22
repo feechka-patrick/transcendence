@@ -6,28 +6,52 @@ import {
 import Messenger from '../components/Messenger/Messenger';
 import styles from './index.module.scss';
 
-const socket = io('http://localhost:5000');
+const socket = io('http://localhost:5000', { path: '/chat-socket' });
 
 const Chat = () => {
   const [chatMessages, setChatMessages] = useState<string[]>([]);
-  // const [message, setMessage] = useState<string>('');
+  const [myId, setMyId] = useState<string>('');
+  const [users, setUsers] = useState<string[]>([]);
+  const [room, setRoom] = useState<string>('');
 
   const pushNewMessage = (newMessage: string) => {
     setChatMessages([...chatMessages, newMessage]);
   };
 
   useEffect(() => {
-    socket.on('message', ({ data }) => {
-      pushNewMessage(data);
+    socket.on('message', (data) => {
+      console.log('message rertieved new message', data);
+      pushNewMessage(data.message);
+    });
+
+    socket.on('registration', (data) => {
+      console.log('registration data', data);
+      setMyId(data);
+    });
+
+    socket.on('usersList', (data) => {
+      setUsers(data);
     });
 
     return () => {
       socket.off('message');
     };
-  }, [pushNewMessage]);
+  }, []);
+
+  const sendMessage = (message: string) => {
+    socket.emit('message', { data: { to: room, message } });
+  };
 
   return (
     <Container>
+      <Row>
+        <Col>
+          <h1>
+            My ID:
+            {myId}
+          </h1>
+        </Col>
+      </Row>
       <Row>
         <Col sm={3} xs={12}>
           <div className={styles.channels}>
@@ -44,34 +68,29 @@ const Chat = () => {
           </div>
         </Col>
         <Col sm={6} xs={12}>
-          <div className={styles.chat}><Messenger /></div>
+          <div className={styles.chat}>
+            <h2>
+              Messaging with
+              {room}
+            </h2>
+            <Messenger chatMessages={chatMessages} sendMessage={sendMessage} />
+          </div>
         </Col>
         <Col sm={3} xs={12}>
-          <div className={styles.users}>Users</div>
+          <div className={styles.users}>
+            {users?.length < 1 ? <h3>Fetching users...</h3>
+              : (
+                <div>
+                  <h3>Users</h3>
+                  <ul>
+                    {users.map((user) => <li key={user} onClick={() => setRoom(user)}>{user}</li>)}
+                  </ul>
+                </div>
+              )}
+          </div>
         </Col>
       </Row>
     </Container>
-  // <div>
-  //   {chatMessages?.length > 0
-  //     ? <ul>{chatMessages.map((chatMessage) => (<li>{chatMessage}</li>))}</ul>
-  //     : <h1>No messages</h1>}
-  //   <Form onSubmit={handleSubmit}>
-  //     <Form.Group>
-  //       <Form.Label htmlFor="message">
-  //         message
-  //       </Form.Label>
-  //       <Form.Control
-  //         id="message"
-  //         name="message"
-  //         placeholder="write new message"
-  //         type="text"
-  //         value={message}
-  //         onChange={onChange}
-  //       />
-  //     </Form.Group>
-  //     <Button type="submit">Send</Button>
-  //   </Form>
-  // </div>
   );
 };
 
