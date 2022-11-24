@@ -1,14 +1,11 @@
 // @ts-nocheck
-/* eslint-disable */
 import React, { useContext } from 'react';
 import {
   Button, Card, Container, Form,
 } from 'react-bootstrap';
-import { NavLink, useLocation, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
-import {
-  decodeToken, getGamesByUser, login, registration,
-} from '../http/userAPI';
+import { login, registration } from '../http/userAPI';
 import { Context } from '../index';
 import { useInput } from '../components/Validation';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -63,11 +60,11 @@ const Auth = () => {
             onBlur={(e) => email.onBlur(e)}
           />
           {(!isLogin && email.isDirty && email.isEmpty)
-							&& <div style={{ color: 'red' }}>Email cannot be empty</div>}
+                        && <div style={{ color: 'red' }}>Email cannot be empty</div>}
           {(!isLogin && email.isDirty && email.minLengthError)
-							&& <div style={{ color: 'red' }}>Email cannot be less 5 symbols</div>}
+                        && <div style={{ color: 'red' }}>Email cannot be less 5 symbols</div>}
           {(!isLogin && email.isDirty && email.emailError)
-							&& <div style={{ color: 'red' }}>Incorrect email</div>}
+                        && <div style={{ color: 'red' }}>Incorrect email</div>}
           <Form.Control
             className="mt-3"
             type="password"
@@ -79,9 +76,9 @@ const Auth = () => {
             onBlur={(e) => password.onBlur(e)}
           />
           {(!isLogin && password.isDirty && password.isEmpty)
-							&& <div style={{ color: 'red' }}>Password cannot be empty</div>}
+                        && <div style={{ color: 'red' }}>Password cannot be empty</div>}
           {(!isLogin && password.isDirty && password.minLengthError)
-							&& <div style={{ color: 'red' }}>Password cannot be less 3 and more 8 symbols</div>}
+                        && <div style={{ color: 'red' }}>Password cannot be less 3 and more 8 symbols</div>}
         </Form>
 
         <Button
@@ -100,7 +97,7 @@ const Auth = () => {
               <NavLink to={REGISTRATION_ROUTE}> Create an account.</NavLink>
             </div>
           )
-          :					(
+          : (
             <div className="mt-3">
               Already have an account?
               <NavLink to={LOGIN_ROUTE}> Sign in</NavLink>

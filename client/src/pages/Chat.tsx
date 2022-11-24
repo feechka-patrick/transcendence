@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import {
+  Button,
   Col, Container, Row, Tab, Tabs,
 } from 'react-bootstrap';
 import Messenger from '../components/Messenger/Messenger';
@@ -9,37 +10,44 @@ import styles from './index.module.scss';
 const socket = io('http://localhost:5000', { path: '/chat-socket' });
 
 const Chat = () => {
-  const [chatMessages, setChatMessages] = useState<string[]>([]);
+  const [chatMessages, setChatMessages] = useState<{ [key: string]: string[] }>({});
   const [myId, setMyId] = useState<string>('');
   const [users, setUsers] = useState<string[]>([]);
-  const [room, setRoom] = useState<string>('');
+  const [receiver, setReceiver] = useState<string>('');
+  const [showChannels, setShowChannels] = useState<boolean>(false);
 
-  const pushNewMessage = (newMessage: string) => {
-    setChatMessages([...chatMessages, newMessage]);
+  const pushNewMessage = ({ from, message }: { from: string, message: string }): void => {
+    setChatMessages((prevChatMessages) => ({
+      ...prevChatMessages,
+      [from]:
+                prevChatMessages[from]?.length > 0
+                  ? [...prevChatMessages[from], message]
+                  : [message],
+    }));
   };
 
   useEffect(() => {
-    socket.on('message', (data) => {
-      console.log('message rertieved new message', data);
-      pushNewMessage(data.message);
+    socket.on('message', ({ from, message }) => {
+      console.log('message', { from, message });
+      pushNewMessage({ from, message });
     });
 
-    socket.on('registration', (data) => {
-      console.log('registration data', data);
-      setMyId(data);
+    socket.on('registration', ({ myIdData }) => {
+      setUsers(users.filter((userId: string) => userId !== myIdData));
+      setMyId(myIdData);
     });
 
-    socket.on('usersList', (data) => {
-      setUsers(data);
+    socket.on('usersList', ({ usersData }) => {
+      setUsers(usersData.filter((userId: string) => userId !== myId));
     });
 
-    return () => {
-      socket.off('message');
-    };
+    socket.on('sent', ({ to, message }: { to: string, message: string }) => {
+      pushNewMessage({ from: to, message });
+    });
   }, []);
 
   const sendMessage = (message: string) => {
-    socket.emit('message', { data: { to: room, message } });
+    socket.emit('message', { to: receiver, message });
   };
 
   return (
@@ -54,26 +62,14 @@ const Chat = () => {
       </Row>
       <Row>
         <Col sm={3} xs={12}>
-          <div className={styles.channels}>
-            <Tabs
-              defaultActiveKey="Channels"
-            >
-              <Tab eventKey="Channels" title="Channels">
-                TO BE DONE CHANNELS...
-              </Tab>
-              <Tab eventKey="DirectMessages" title="DirectMessages">
-                TO BE DONE DIRECT MESSAGES...
-              </Tab>
-            </Tabs>
-          </div>
+          <div className={styles.channels} />
         </Col>
         <Col sm={6} xs={12}>
           <div className={styles.chat}>
-            <h2>
-              Messaging with
-              {room}
-            </h2>
-            <Messenger chatMessages={chatMessages} sendMessage={sendMessage} />
+            <h3>
+              {receiver ? `Chatting with ${receiver}` : 'Please choose some one you want from start a chat'}
+            </h3>
+            {receiver && <Messenger chatMessages={chatMessages[receiver]} sendMessage={sendMessage} />}
           </div>
         </Col>
         <Col sm={3} xs={12}>
@@ -83,7 +79,15 @@ const Chat = () => {
                 <div>
                   <h3>Users</h3>
                   <ul>
-                    {users.map((user) => <li key={user} onClick={() => setRoom(user)}>{user}</li>)}
+                    {users.map((user) => (
+                      <li
+                        key={user}
+                      >
+                        <Button onClick={() => setReceiver(user)}>
+                          {user}
+                        </Button>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
