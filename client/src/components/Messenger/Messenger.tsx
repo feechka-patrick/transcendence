@@ -1,13 +1,19 @@
 import React, { FC, FormEventHandler, useState } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
 import Message from './Message/Message';
+import { ChatMessage, UserId } from '../../types';
 
 interface MessengerProps {
-    chatMessages: string[],
-    sendMessage: (message: string) => void;
+  chatMessages: ChatMessage[],
+  myId: UserId,
+  sendMessage: (message: string) => void;
 }
 
-const Messenger: FC<MessengerProps> = ({ chatMessages, sendMessage }) => {
+const Messenger: FC<MessengerProps> = ({
+  chatMessages,
+  myId,
+  sendMessage,
+}) => {
   const [message, setMessage] = useState<string>('');
 
   const handleSubmit: FormEventHandler = (event) => {
@@ -18,11 +24,12 @@ const Messenger: FC<MessengerProps> = ({ chatMessages, sendMessage }) => {
   };
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => setMessage(e.target.value);
+  console.log(chatMessages);
 
   return (
     <div>
       <Stack gap={3}>
-        {chatMessages?.map((item) => <Message text={item} />)}
+        {chatMessages?.map((chatMessage) => <Message chatMessage={chatMessage} isUserMessage={chatMessage.author === myId} />)}
       </Stack>
       <Form onSubmit={handleSubmit}>
         <Form.Group>
