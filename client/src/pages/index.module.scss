@@ -1,19 +1,34 @@
-.chat, .channels, .users {
-  width: 100%;
-  height: 100%;
+.chat {
+
 }
 
-.chat {
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.messenger, .channels, .users {
+  width: 100%;
+  height: 100%;
+  padding: 8px 16px 24px;
+  height: 80vh;
+  overflow: scroll;
 }
 
 .channels {
+  border-radius: 4px 0 0 4px;
   border: 1px solid #ccc;
-  border-radius: 4px;
 }
+
+.messenger {
+  border: 1px solid #ccc;
+  border-left: 0;
+  border-right: 0;
+}
+
 
 .users {
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 0 4px 4px 0;
+}
+
+.usersItems, .channelsItems{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

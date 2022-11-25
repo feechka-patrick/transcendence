@@ -52,6 +52,7 @@ export class chatGateway implements OnGatewayConnection {
       name: client.id
     });
     this.channels['@general'].members.push(client.id);
+    console.log('registered', client.id);
     client.emit(SocketEvents.REGISTRATION, { myIdData: client.id });
     this.broadcastList();
   }

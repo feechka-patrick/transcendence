@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import {
   Button,
-  Col, Container, Row,
+  Col, Container, Row, Stack,
 } from 'react-bootstrap';
+import classNames from 'classnames';
 import Messenger from '../components/Messenger/Messenger';
 import styles from './index.module.scss';
 import {
@@ -45,13 +46,20 @@ const Chat = () => {
   useEffect(() => {
     socket.on(SocketEvents.REGISTRATION, ({ myIdData }) => {
       setMyId(myIdData);
+      setUsers(users.filter((user: string) => {
+        console.log('user', user, 'myId', myId, 'myIdData', myIdData);
+        return user !== myId;
+      }));
     });
 
     socket.on(SocketEvents.LIST, ({
       usersData,
       channelsData,
     }) => {
-      setUsers(usersData);
+      setUsers(usersData.filter((user: string) => {
+        console.log('user', user, 'myId', myId);
+        return user !== myId;
+      }));
       setChannels(channelsData);
     });
 
@@ -104,55 +112,70 @@ const Chat = () => {
   };
 
   return (
-    <Container>
-      <Row>
+    <Container fluid className={styles.chatWrapper}>
+      <Row fluid className="no-gutters">
         <Col>
           <h1>
             My ID:
+            {' '}
             {myId}
           </h1>
         </Col>
       </Row>
-      <Row>
-        <Col sm={3} xs={12}>
+      <Row fluid className={classNames('no-gutters', styles.chat)}>
+        <Col sm={2} xs={12} fluid>
           <div className={styles.channels}>
-            <h4>Channels:</h4>
-            {channels && Object.keys(channels)
-              .map((channel: string) => <Button key={channel} onClick={() => handleChangeActiveChat(channel)} variant={`${activeChat !== channel ? 'outline-' : ''}primary`}>{channel}</Button>)}
+            {!channels ? <h4>There is no channels...</h4>
+              : (
+                <>
+                  <h4>Channels:</h4>
+                  <div className={styles.channelsItems}>
+                    {channels && Object.keys(channels)
+                      .map((channel: string) => (
+                        <Button
+                          className="text-truncate"
+                          key={channel}
+                          onClick={() => handleChangeActiveChat(channel)}
+                          variant={`${activeChat !== channel ? 'outline-' : ''}primary`}
+                        >
+                          {channel}
+                        </Button>
+                      ))}
+                  </div>
+                </>
+              )}
+
           </div>
         </Col>
-        <Col sm={6} xs={12}>
-          <div className={styles.chat}>
-            <h3>
-              {activeChat ? `Chatting with ${activeChat}` : 'Please choose some one you want from start a chat'}
-            </h3>
-            {activeChat
-            && (
-              <Messenger
-                myId={myId}
-                chatMessages={activeChat.startsWith('@') ? channelsMessages[activeChat as ChannelId].messages : directMessages[activeChat].messages}
-                sendMessage={sendMessage}
-              />
-            )}
+        <Col sm={8} xs={12}>
+          <div className={classNames(styles.messenger, 'd-flex flex-shrink-0')}>
+            {!activeChat
+              ? <h3 className="text-center align-self-center px-5 w-100">Choose the user or channel to start chatting!</h3>
+              : (
+                <Messenger
+                  myId={myId}
+                  chatMessages={activeChat.startsWith('@') ? channelsMessages[activeChat as ChannelId].messages : directMessages[activeChat].messages}
+                  sendMessage={sendMessage}
+                />
+              )}
           </div>
         </Col>
-        <Col sm={3} xs={12}>
+        <Col sm={2} xs={12}>
           <div className={styles.users}>
             {users?.length < 1 ? <h3>No users...</h3>
               : (
-                <div>
-                  <h3>Users</h3>
-                  <ul>
-                    {users.map((user) => (
-                      <li
-                        key={user}
-                      >
-                        <Button onClick={() => handleChangeActiveChat(user)} variant={`${activeChat !== user ? 'outline-' : ''}primary`}>
-                          {user}
-                        </Button>
-                      </li>
-                    ))}
-                  </ul>
+                <div className={styles.usersItems}>
+                  <h3>Users:</h3>
+                  {users.map((user) => (
+                    <Button
+                      key={user}
+                      onClick={() => handleChangeActiveChat(user)}
+                      variant={`${activeChat !== user ? 'outline-' : ''}primary`}
+                      className="text-truncate"
+                    >
+                      {user}
+                    </Button>
+                  ))}
                 </div>
               )}
           </div>

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
+import { Card } from 'react-bootstrap';
 import styles from './index.module.scss';
 import { ChatMessage } from '../../../types';
 
@@ -9,16 +10,18 @@ const Message: FC<{ chatMessage: ChatMessage, isUserMessage: boolean }> = (
     isUserMessage,
   },
 ) => (
-  <div className={classNames(
+  <Card className={classNames(
     styles.message,
-    { [styles['message-self']]: isUserMessage },
+    {
+      [styles['message--self']]: isUserMessage,
+    },
   )}
   >
-    Author:
-    {author}
-    , message:
-    {message}
-  </div>
+    <Card.Body>
+      <Card.Subtitle className={classNames('mb-2 t text-muted', styles.name)}>{author}</Card.Subtitle>
+      <Card.Text>{message}</Card.Text>
+    </Card.Body>
+  </Card>
 );
 
 export default Message;
