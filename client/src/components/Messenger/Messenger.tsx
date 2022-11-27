@@ -1,7 +1,11 @@
-import React, { FC, FormEventHandler, useState } from 'react';
+import React, {
+  FC, FormEventHandler, useEffect, useRef, useState,
+} from 'react';
 import {
-  Button, Col, Form, Row, Stack,
+  Button, Col, Form, Row,
 } from 'react-bootstrap';
+import classNames from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 import Message from './Message/Message';
 import { ChatMessage, UserId } from '../../types';
 import styles from './index.module.scss';
@@ -18,6 +22,7 @@ const Messenger: FC<MessengerProps> = ({
   sendMessage,
 }) => {
   const [message, setMessage] = useState<string>('');
+  const bottomOfTheMessagesRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
@@ -27,14 +32,18 @@ const Messenger: FC<MessengerProps> = ({
   };
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => setMessage(e.target.value);
-  console.log(chatMessages);
+
+  useEffect(() => {
+    if (bottomOfTheMessagesRef?.current) bottomOfTheMessagesRef?.current?.scrollIntoView();
+  }, [chatMessages]);
 
   return (
     <div className="d-flex flex-column w-100">
       <div className={styles.chatMessages}>
-        {chatMessages?.map((chatMessage) => <Message chatMessage={chatMessage} isUserMessage={chatMessage.author === myId} />)}
+        {chatMessages?.map((chatMessage) => <Message key={uuidv4()} chatMessage={chatMessage} isUserMessage={chatMessage.author === myId} />)}
+        <div ref={bottomOfTheMessagesRef} />
       </div>
-      <Form onSubmit={handleSubmit} className="w-100 mt-auto">
+      <Form onSubmit={handleSubmit} className={classNames('w-100 mt-auto', styles.form)}>
         <Form.Group>
           <Row>
             <Col xs={10} fluid>
