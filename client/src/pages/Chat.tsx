@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import {
-  Button,
-  Col, Container, Row, Stack,
+  Col, Container, Row,
 } from 'react-bootstrap';
-import classNames from 'classnames';
 import Messenger from '../components/Messenger/Messenger';
-import styles from './index.module.scss';
 import {
-  SocketEvents, ChannelsMap, DirectMessagesMap, ChannelId, UserId, ChatMessage,
+  SocketEvents, ChannelsMap, DirectMessagesMap, ChannelId, UserId, ChatMessage, ChannelList, UsersList,
 } from '../types';
+import ChatChannels from '../components/ChatChannels/ChatChannels';
+import ChatUsers from '../components/ChatUsers/ChatUsers';
 
 const socket = io('http://localhost:5000', { path: '/chat-socket' });
 
 const Chat = () => {
+  // TODO - move to redux
   const [channelsMessages, setChannelsMessages] = useState<ChannelsMap>({});
   const [directMessages, setDirectMessages] = useState<DirectMessagesMap>({});
   const [activeChat, setActiveChat] = useState<ChannelId | UserId>('');
 
   const [myId, setMyId] = useState<string>('');
-  const [users, setUsers] = useState<UserId[]>([]);
-  const [channels, setChannels] = useState<{ [key: ChannelId]: UserId[] }>({});
+  const [users, setUsers] = useState<UsersList>([]);
+  const [channels, setChannels] = useState<ChannelList>({});
 
   const pushNewMessage = (chatMessage: ChatMessage): void => {
     const { where } = chatMessage;
@@ -44,22 +44,17 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    // TODO - use custom hook here https://dev.to/droidmakk/custom-hooks-and-sockets-2i56
     socket.on(SocketEvents.REGISTRATION, ({ myIdData }) => {
       setMyId(myIdData);
-      setUsers(users.filter((user: string) => {
-        console.log('user', user, 'myId', myId, 'myIdData', myIdData);
-        return user !== myId;
-      }));
+      setUsers(users.filter((user: string) => user !== myId));
     });
 
     socket.on(SocketEvents.LIST, ({
       usersData,
       channelsData,
     }) => {
-      setUsers(usersData.filter((user: string) => {
-        console.log('user', user, 'myId', myId);
-        return user !== myId;
-      }));
+      setUsers(usersData.filter((user: string) => user !== myId));
       setChannels(channelsData);
     });
 
@@ -68,11 +63,6 @@ const Chat = () => {
       where,
       message,
     }: ChatMessage) => {
-      console.log(SocketEvents.MESSAGE, {
-        author,
-        where,
-        message,
-      });
       pushNewMessage({
         author,
         where,
@@ -82,7 +72,6 @@ const Chat = () => {
   }, []);
 
   const sendMessage = (message: string) => {
-    console.log('sending message');
     socket.emit(SocketEvents.MESSAGE, {
       to: activeChat,
       message,
@@ -112,7 +101,7 @@ const Chat = () => {
   };
 
   return (
-    <Container fluid className={styles.chatWrapper}>
+    <Container fluid>
       <Row fluid className="no-gutters">
         <Col>
           <h1>
@@ -122,63 +111,29 @@ const Chat = () => {
           </h1>
         </Col>
       </Row>
-      <Row fluid className={classNames('no-gutters', styles.chat)}>
+      <Row fluid className="no-gutters">
         <Col sm={2} xs={12} fluid>
-          <div className={styles.channels}>
-            {!channels ? <h4>There is no channels...</h4>
-              : (
-                <>
-                  <h4>Channels:</h4>
-                  <div className={styles.channelsItems}>
-                    {channels && Object.keys(channels)
-                      .map((channel: string) => (
-                        <Button
-                          className="text-truncate"
-                          key={channel}
-                          onClick={() => handleChangeActiveChat(channel)}
-                          variant={`${activeChat !== channel ? 'outline-' : ''}primary`}
-                        >
-                          {channel}
-                        </Button>
-                      ))}
-                  </div>
-                </>
-              )}
-
-          </div>
+          <ChatChannels
+            channels={channels}
+            activeChat={activeChat}
+            onChannelClick={handleChangeActiveChat}
+          />
         </Col>
         <Col sm={8} xs={12}>
-          <div className={classNames(styles.messenger, 'd-flex flex-shrink-0')}>
-            {!activeChat
-              ? <h3 className="text-center align-self-center px-5 w-100">Choose the user or channel to start chatting!</h3>
-              : (
-                <Messenger
-                  myId={myId}
-                  chatMessages={activeChat.startsWith('@') ? channelsMessages[activeChat as ChannelId].messages : directMessages[activeChat].messages}
-                  sendMessage={sendMessage}
-                />
-              )}
-          </div>
+          <Messenger
+            activeChat={activeChat}
+            myId={myId}
+            channelsMessages={channelsMessages}
+            directMessages={directMessages}
+            sendMessage={sendMessage}
+          />
         </Col>
         <Col sm={2} xs={12}>
-          <div className={styles.users}>
-            {users?.length < 1 ? <h3>No users...</h3>
-              : (
-                <div className={styles.usersItems}>
-                  <h3>Users:</h3>
-                  {users.map((user) => (
-                    <Button
-                      key={user}
-                      onClick={() => handleChangeActiveChat(user)}
-                      variant={`${activeChat !== user ? 'outline-' : ''}primary`}
-                      className="text-truncate"
-                    >
-                      {user}
-                    </Button>
-                  ))}
-                </div>
-              )}
-          </div>
+          <ChatUsers
+            activeChat={activeChat}
+            users={users}
+            onClickUser={handleChangeActiveChat}
+          />
         </Col>
       </Row>
     </Container>

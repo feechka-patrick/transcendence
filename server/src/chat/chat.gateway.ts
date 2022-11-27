@@ -19,7 +19,7 @@ export class chatGateway implements OnGatewayConnection {
   users: User[] = [];
   channels: ChannelMap = {};
 
-  afterInit(server: Server) {
+  afterInit() {
     this.channels = {
       '@general': {
         isPublic: true,
@@ -52,7 +52,7 @@ export class chatGateway implements OnGatewayConnection {
       name: client.id
     });
     this.channels['@general'].members.push(client.id);
-    console.log('registered', client.id);
+    console.log('registered a new connection', client.id);
     client.emit(SocketEvents.REGISTRATION, { myIdData: client.id });
     this.broadcastList();
   }
@@ -84,7 +84,6 @@ export class chatGateway implements OnGatewayConnection {
       // send message to each member in channel
       this.channels[to].members.forEach(memberId => {
         const member = this.users.find(user => user.id === memberId);
-        console.log('sending message to', member.socket.id);
         member.socket.emit(SocketEvents.MESSAGE, {
           author: client.id,
           where: to,
