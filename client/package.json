@@ -37,6 +37,7 @@
     "tsc:w": "npx tsc -w",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "deploy": "git add *; git commit -m \"добавила auth slice\"; git push",
     "lint": "eslint ."
   },
   "browserslist": {
