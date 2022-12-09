@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { StoredUser } from '@src';
 import jwtDecode from 'jwt-decode';
 import { $host } from '.';
 
@@ -9,7 +10,10 @@ export const registration = async (email, password) => {
 
 export const login = async (email, password) => {
   const response = await $host.post('/auth/login', { email, password });
-  return jwtDecode(response.data);
+  debugger;
+  console.log(response.data)
+  const data : StoredUser = jwtDecode(response.data);
+  return data;
 };
 
 export const changeEmail = async (email, new_email, password) => {

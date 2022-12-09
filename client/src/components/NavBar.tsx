@@ -8,10 +8,15 @@ import Container from 'react-bootstrap/Container';
 import {
   REGISTRATION_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, ACCOUNT_ROUTE, GAME_ROUTE,
 } from '../utils/consts';
-import { Context } from '../index';
+import { logout } from '../store/features/authSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 const NavBar = observer(() => {
-  const { user } = useContext(Context);
+  const { user, loaded } = useAppSelector((store) => store.auth);
+  const dispatch = useAppDispatch();
+
+  const isAuth = loaded;
+
   const history = useHistory();
 
   const location = useLocation();
@@ -19,14 +24,14 @@ const NavBar = observer(() => {
 
   const logOut = () => {
     history.push(LOGIN_ROUTE);
-    user.setUser({});
-    user.setIsAuth(false);
+    // dispatch(logout());
   };
+
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
         <NavLink style={{ color: 'white' }} to={MAIN_ROUTE}>MY SITE</NavLink>
-        {user.isAuth
+        {isAuth
           ? (
             <Nav className="ml-auto" style={{ color: 'white' }}>
               <Button

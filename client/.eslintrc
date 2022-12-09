@@ -10,6 +10,7 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
+
   "plugins": [
     "jsx-a11y",
     "prefer-arrow"
@@ -24,6 +25,13 @@
         ]
       }
     ],
+    "no-param-reassign": ["error", 
+    {
+      "props": true,
+      "ignorePropertyModificationsFor": [
+        "state"
+      ]
+    }],
     "import/extensions": [
       "error",
       "ignorePackages",
