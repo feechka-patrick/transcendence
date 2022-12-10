@@ -8,8 +8,8 @@ import Container from 'react-bootstrap/Container';
 import {
   REGISTRATION_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, ACCOUNT_ROUTE, GAME_ROUTE,
 } from '../utils/consts';
-import { logout } from '../store/features/authSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { logout } from '../store/features/auth/authThunks';
 
 const NavBar = observer(() => {
   const { user, loaded } = useAppSelector((store) => store.auth);
@@ -24,7 +24,7 @@ const NavBar = observer(() => {
 
   const logOut = () => {
     history.push(LOGIN_ROUTE);
-    // dispatch(logout());
+    dispatch(logout());
   };
 
   return (

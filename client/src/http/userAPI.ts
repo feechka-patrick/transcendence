@@ -1,42 +1,38 @@
+/* eslint-disable camelcase */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { StoredUser } from '@src';
+
 import jwtDecode from 'jwt-decode';
 import { $host } from '.';
+import { StoredUser } from '../store/features/auth/authSlice';
+import { setToken } from '../store/token';
 
-export const registration = async (email, password) => {
+export const registration = async (email: string, password: string) => {
   const response = await $host.post('auth/registration', { email, password, role: 'user' });
-  return jwtDecode(response.data);
+  return response.data;
 };
 
-export const login = async (email, password) => {
+export const login = async (email: string, password: string) => {
   const response = await $host.post('/auth/login', { email, password });
-  debugger;
-  console.log(response.data)
-  const data : StoredUser = jwtDecode(response.data);
-  return data;
+  return response.data;
 };
 
-export const changeEmail = async (email, new_email, password) => {
+export const changeEmail = async (email: string, new_email: string, password: string) => {
   const response = await $host.post('/users/changeEmail', { email, new_email, password });
   return response;
 };
 
-export const deleteUser = async (email, password) => {
+export const deleteUser = async (email: string, password: string) => {
   const response = await $host.post('/users/deleteUser', { email, password });
   return response;
 };
 
-export const decodeToken = async (token) => {
-  const response = await $host.post('/auth/decodeToken', { token });
-  return response;
-};
-
-export const getGamesByUser = async (userEmail) => {
+export const getGamesByUser = async (userEmail: string) => {
   const response = await $host.post('/games/store', { userEmail });
   return response;
 };
 
-export const createGame = async (winner, time, userId) => {
+export const createGame = async (winner: boolean, time: string, userId: string) => {
   const response = await $host.post('/games', { winner, time, userId });
   return response;
 };

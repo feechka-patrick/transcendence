@@ -1,37 +1,39 @@
-// @ts-nocheck
-import React, { FC, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button, Card, Col, Container, Form, Row,
 } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-import GameTable from '../components/GameTable';
-import { useInput } from '../components/Validation';
-import { Context } from '../index';
 import { MAIN_ROUTE } from '../utils/consts';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { alert } from '../store/features/alertSlice';
+import { useInput } from '../components/Validation';
 
-const Account: FC<{}> = () => {
+const Account = () => {
   const history = useHistory();
-  const { user } = useContext(Context);
-  const email = useInput(user.email, { isEmpty: true, minLength: 5, isEmail: true });
+
+  const { user } = useAppSelector((store) => store.auth);
+  const dispatch = useAppDispatch();
+
+  const email = useInput(user?.email, { isEmpty: true, minLength: 5, isEmail: true });
   const [password, setPassword] = useState('');
+
 
   const changeData = async () => {
     try {
-      user.setEmail(email.value);
       history.push(MAIN_ROUTE);
-    } catch (e) {
-      alert(e.response.data.message);
+    } catch (e : any) {
+      dispatch(alert({ message: e.response.data.message }));
     }
   };
 
   const deleteData = async () => {
     try {
-      user.setIsAuth(false);
       history.push(MAIN_ROUTE);
-    } catch (e) {
-      alert(e.response.data.message);
+    } catch (e : any) {
+      dispatch(alert({ message: e.response.data.message }));
     }
   };
+
   return (
     <Container className="mt-5">
       <Card className="m-5 p-5">
@@ -131,7 +133,7 @@ const Account: FC<{}> = () => {
         </Form>
 
         {/* GAME HISTORY TABLE */}
-        <GameTable />
+        {/* <GameTable /> */}
 
       </Card>
     </Container>

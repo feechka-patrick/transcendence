@@ -1,9 +1,11 @@
 import { configureStore, MiddlewareArray } from '@reduxjs/toolkit';
-import authSlice from './features/authSlice';
+import alertSlice from './features/alertSlice';
+import authSlice from './features/auth/authSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authSlice,
+    alerts: alertSlice,
   },
   // middleware: new MiddlewareArray().concat(additionalMiddleware, logger)
 });

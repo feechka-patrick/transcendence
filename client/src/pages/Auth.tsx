@@ -3,21 +3,20 @@ import {
   Button, Card, Container, Form,
 } from 'react-bootstrap';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import { emailLogin } from '../store/features/authSlice';
+import { emailLogin } from '../store/features/auth/authThunks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { registration } from '../http/userAPI';
 import { useInput } from '../components/Validation';
 
 const Auth = () => {
-  // const { user } = useContext(Context);
   const location = useLocation();
   const history = useHistory();
   const isLogin = location.pathname === LOGIN_ROUTE;
   const email = useInput('', { isEmpty: true, minLength: 5, isEmail: true });
   const password = useInput('', { isEmpty: true, minLength: 3 });
 
-  const { user } = useAppSelector((store) => store.auth);
+  const { user, isAuth } = useAppSelector((store) => store.auth);
   const dispatch = useAppDispatch();
 
   const signIn = async () => {
@@ -27,12 +26,10 @@ const Auth = () => {
       } else {
         const data = await registration(email.value, password.value);
       }
-      // debugger
       console.log(user);
       // user.setUser(user);
       // user.setIsAuth(true);
-
-      
+      if (isAuth) history.push(MAIN_ROUTE);
     } catch (e) {
       console.log(e);
     }

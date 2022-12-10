@@ -4,7 +4,6 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-import { Context } from '..';
 import TypeBar from '../components/TypeBar';
 import { GAME_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { useAppSelector } from '../store/hooks';
