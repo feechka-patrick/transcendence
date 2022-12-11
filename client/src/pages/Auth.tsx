@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { registration } from '../http/userAPI';
 import { useInput } from '../components/Validation';
+import { Intra42RedirectURL } from '../constants';
 
 const Auth = () => {
   const location = useLocation();
@@ -16,7 +17,7 @@ const Auth = () => {
   const email = useInput('', { isEmpty: true, minLength: 5, isEmail: true });
   const password = useInput('', { isEmpty: true, minLength: 3 });
 
-  const { user, isAuth } = useAppSelector((store) => store.auth);
+  const { isAuth } = useAppSelector((store) => store.auth);
   const dispatch = useAppDispatch();
 
   const signIn = async () => {
@@ -26,9 +27,6 @@ const Auth = () => {
       } else {
         const data = await registration(email.value, password.value);
       }
-      console.log(user);
-      // user.setUser(user);
-      // user.setIsAuth(true);
       if (isAuth) history.push(MAIN_ROUTE);
     } catch (e) {
       console.log(e);
@@ -84,7 +82,7 @@ const Auth = () => {
         {isLogin
           ? (
             <div className="mt-3">
-              Don't have an account yet?
+              Don&apos;t have an account yet?
               <NavLink to={REGISTRATION_ROUTE}> Create an account.</NavLink>
             </div>
           )
@@ -94,8 +92,8 @@ const Auth = () => {
               <NavLink to={LOGIN_ROUTE}> Sign in</NavLink>
             </div>
           )}
+        <a href={Intra42RedirectURL}>Login with intra 42</a>
       </Card>
-
     </Container>
   );
 };

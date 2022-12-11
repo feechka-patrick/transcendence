@@ -1,0 +1,1 @@
+export const Intra42RedirectURL = 'https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-ca01e0a3b33eab9ff01d73db18b976e02e503b4790869d016eefcb585850a2ef&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_type=code';

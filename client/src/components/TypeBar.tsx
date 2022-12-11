@@ -1,9 +1,8 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Card } from 'react-bootstrap';
-import { observer } from 'mobx-react-lite';
 
-const TypeBar = observer(() => (
+const TypeBar = () => (
   <Card>
     <ListGroup>
       <ListGroup.Item action>Logical games</ListGroup.Item>
@@ -19,6 +18,6 @@ const TypeBar = observer(() => (
       <ListGroup.Item disabled>Michezo ya kimantiki</ListGroup.Item>
     </ListGroup>
   </Card>
-));
+);
 
 export default TypeBar;

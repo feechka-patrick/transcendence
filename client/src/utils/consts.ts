@@ -4,4 +4,5 @@ export const REGISTRATION_ROUTE = '/registration';
 export const GAME_ROUTE = '/game';
 export const ACCOUNT_ROUTE = '/user';
 export const CHAT_ROUTE = '/chat';
+export const INTRA_ROUTE = '/intra';
 export const MAIN_ROUTE = '/';

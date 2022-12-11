@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Button, ButtonGroup, Card, Col, Container,
   Row,
@@ -9,14 +9,9 @@ import { GAME_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 import { useAppSelector } from '../store/hooks';
 
 const Main = () => {
-  const { user, loaded } = useAppSelector((store) => store.auth);
+  const { loaded } = useAppSelector((store) => store.auth);
   const isAuth = loaded;
   const history = useHistory();
-
-  if (isAuth) {
-    console.log(`login: ${loaded}`);
-    console.log(`user: ${user?.email}`);
-  }
 
   return (
     <Container>

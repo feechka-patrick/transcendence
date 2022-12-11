@@ -1,11 +1,4 @@
-/* eslint-disable camelcase */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
-import jwtDecode from 'jwt-decode';
 import { $host } from '.';
-import { StoredUser } from '../store/features/auth/authSlice';
-import { setToken } from '../store/token';
 
 export const registration = async (email: string, password: string) => {
   const response = await $host.post('auth/registration', { email, password, role: 'user' });
@@ -17,7 +10,9 @@ export const login = async (email: string, password: string) => {
   return response.data;
 };
 
+// eslint-disable-next-line camelcase
 export const changeEmail = async (email: string, new_email: string, password: string) => {
+  // eslint-disable-next-line camelcase
   const response = await $host.post('/users/changeEmail', { email, new_email, password });
   return response;
 };

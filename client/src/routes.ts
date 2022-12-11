@@ -8,11 +8,12 @@ import {
   ACCOUNT_ROUTE,
   ADMIN_ROUTE,
   CHAT_ROUTE,
-  GAME_ROUTE,
+  GAME_ROUTE, INTRA_ROUTE,
   LOGIN_ROUTE,
   MAIN_ROUTE,
   REGISTRATION_ROUTE,
 } from './utils/consts';
+import Intra from './pages/Intra';
 
 export const authRoutes = [
   {
@@ -45,5 +46,9 @@ export const publicRoutes = [
   {
     path: CHAT_ROUTE,
     Component: Chat,
+  },
+  {
+    path: INTRA_ROUTE,
+    Component: Intra,
   },
 ];

@@ -45,14 +45,12 @@ export const alert = createAsyncThunk(
 
     stack.push(item);
     dispatch(updateStack(stack));
-    // debugger;
     if (!preventAutoDismiss) {
       setTimeout(() => {
-        // eslint-disable-next-line no-shadow
-        const stack = [...(getState() as RootState).alerts.stack].filter(
+        const newStack = [...(getState() as RootState).alerts.stack].filter(
           (i) => i.uid !== item.uid,
         );
-        dispatch(updateStack(stack));
+        dispatch(updateStack(newStack));
       }, 5000);
     }
   },

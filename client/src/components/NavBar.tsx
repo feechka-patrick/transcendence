@@ -3,7 +3,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import { observer } from 'mobx-react-lite';
 import Container from 'react-bootstrap/Container';
 import {
   REGISTRATION_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, ACCOUNT_ROUTE, GAME_ROUTE,
@@ -11,8 +10,8 @@ import {
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { logout } from '../store/features/auth/authThunks';
 
-const NavBar = observer(() => {
-  const { user, loaded } = useAppSelector((store) => store.auth);
+const NavBar = () => {
+  const { loaded } = useAppSelector((store) => store.auth);
   const dispatch = useAppDispatch();
 
   const isAuth = loaded;
@@ -67,6 +66,6 @@ const NavBar = observer(() => {
       </Container>
     </Navbar>
   );
-});
+};
 
 export default NavBar;

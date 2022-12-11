@@ -1,9 +1,5 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-
 import React from 'react';
 
-import clsx from 'clsx';
 import { HiCheck, HiX } from 'react-icons/hi';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AlertItem, dismissMessage } from '../store/features/alertSlice';
@@ -32,12 +28,14 @@ const Alert = ({ message, uid, type }: AlertItem) => {
     <div className="alert my-3 alert-success ">
       <div className="flex-1 mx-2">
         {iconNode}
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label>{message}</label>
       </div>
       <div className="flex-none">
         <button
           className="btn btn-sm btn-ghost btn-circle"
           onClick={() => dispatch(dismissMessage(uid!))}
+          type="button"
         >
           <HiX className="w-6 h-6" />
         </button>

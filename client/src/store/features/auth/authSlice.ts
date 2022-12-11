@@ -1,23 +1,6 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-type Role = 'admin' | 'user';
-
-export interface StoredUser {
-    id: string;
-    nickname?: string;
-    email: string;
-    password?: string;
-    img?: string;
-    createdAt?: string;
-    role?: Role;
-}
-
-interface UserState {
-    loaded: boolean;
-    user: null | StoredUser;
-    isAuth: boolean;
-}
+import { emailLogin, logout, updateAuthListener } from './authThunks';
+import { UserState } from './types';
 
 export const initialState: UserState = {
   loaded: false,
@@ -34,12 +17,28 @@ export const authSlice = createSlice({
       state.user = user;
       state.loaded = loaded;
       state.isAuth = isAuth;
-
-      console.log('set auth');
-      // debugger
     },
   },
-  extraReducers: () => { },
+  extraReducers: (builder) => {
+    builder.addCase(emailLogin.fulfilled, (state, action: PayloadAction<UserState>) => {
+      const { loaded, user, isAuth } = action.payload;
+      state.user = user;
+      state.loaded = loaded;
+      state.isAuth = isAuth;
+    });
+    builder.addCase(logout.fulfilled, (state, action:PayloadAction<UserState>) => {
+      const { loaded, user, isAuth } = action.payload;
+      state.user = user;
+      state.loaded = loaded;
+      state.isAuth = isAuth;
+    });
+    builder.addCase(updateAuthListener.fulfilled, (state, action:PayloadAction<UserState>) => {
+      const { loaded, user, isAuth } = action.payload;
+      state.user = user;
+      state.loaded = loaded;
+      state.isAuth = isAuth;
+    });
+  },
 });
 
 export const { setAuth } = authSlice.actions;
