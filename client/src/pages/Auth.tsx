@@ -1,46 +1,37 @@
-// @ts-nocheck
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Button, Card, Container, Form,
 } from 'react-bootstrap';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
-import { login, registration } from '../http/userAPI';
-import { Context } from '../index';
-import { useInput } from '../components/Validation';
+import { emailLogin } from '../store/features/auth/authThunks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { setUser } from '../store/features/userSlice';
-import { store } from '../store/store';
+import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
+import { registration } from '../http/userAPI';
+import { useInput } from '../components/Validation';
 
 const Auth = () => {
-  const { user } = useContext(Context);
   const location = useLocation();
   const history = useHistory();
   const isLogin = location.pathname === LOGIN_ROUTE;
   const email = useInput('', { isEmpty: true, minLength: 5, isEmail: true });
   const password = useInput('', { isEmpty: true, minLength: 3 });
 
-  const { _user } = useAppSelector((store) => store);
+  const { user, isAuth } = useAppSelector((store) => store.auth);
   const dispatch = useAppDispatch();
-  const state = store.getState();
 
   const signIn = async () => {
     try {
-      let data;
       if (isLogin) {
-        data = await login(email.value, password.value);
+        dispatch(emailLogin({ email: email.value, password: password.value }));
       } else {
-        data = await registration(email.value, password.value);
+        const data = await registration(email.value, password.value);
       }
-
-      dispatch(setUser({ ...state, user: data }));
-
-      user.setUser(user);
-      user.setIsAuth(true);
-
-      history.push(MAIN_ROUTE);
+      console.log(user);
+      // user.setUser(user);
+      // user.setIsAuth(true);
+      if (isAuth) history.push(MAIN_ROUTE);
     } catch (e) {
-      alert(e.response.data.message);
+      console.log(e);
     }
   };
 
@@ -60,11 +51,11 @@ const Auth = () => {
             onBlur={(e) => email.onBlur(e)}
           />
           {(!isLogin && email.isDirty && email.isEmpty)
-                        && <div style={{ color: 'red' }}>Email cannot be empty</div>}
+            && <div style={{ color: 'red' }}>Email cannot be empty</div>}
           {(!isLogin && email.isDirty && email.minLengthError)
-                        && <div style={{ color: 'red' }}>Email cannot be less 5 symbols</div>}
+            && <div style={{ color: 'red' }}>Email cannot be less 5 symbols</div>}
           {(!isLogin && email.isDirty && email.emailError)
-                        && <div style={{ color: 'red' }}>Incorrect email</div>}
+            && <div style={{ color: 'red' }}>Incorrect email</div>}
           <Form.Control
             className="mt-3"
             type="password"
@@ -76,9 +67,9 @@ const Auth = () => {
             onBlur={(e) => password.onBlur(e)}
           />
           {(!isLogin && password.isDirty && password.isEmpty)
-                        && <div style={{ color: 'red' }}>Password cannot be empty</div>}
+            && <div style={{ color: 'red' }}>Password cannot be empty</div>}
           {(!isLogin && password.isDirty && password.minLengthError)
-                        && <div style={{ color: 'red' }}>Password cannot be less 3 and more 8 symbols</div>}
+            && <div style={{ color: 'red' }}>Password cannot be less 3 and more 8 symbols</div>}
         </Form>
 
         <Button

@@ -1,5 +1,5 @@
+// @ts-nocheck
 import React, { useContext, useState } from 'react';
-import { Context } from '../index';
 import Square from '../components/Square';
 import '../css/GameComponents.css';
 import { createGame } from '../http/userAPI';
@@ -8,7 +8,6 @@ import { AxiosError } from 'axios';
 import Button from 'react-bootstrap/Button';
 
 const Game = () => {
-  const { user } = useContext(Context);
   const [board, setBoard] = useState(Array(9).fill(null));
   const [countStep, setCount] = useState(0);
   const winner = calculateWinner(board);
